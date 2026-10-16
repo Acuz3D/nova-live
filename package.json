@@ -1,0 +1,59 @@
+{
+  "name": "nova-live",
+  "version": "1.0.0",
+  "description": "Paste a YouTube link (or any video, picture or web page) and it plays as your desktop background",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "icon": "electron tools/make-icon.js",
+    "dist": "electron-builder --win nsis --publish never"
+  },
+  "type": "commonjs",
+  "devDependencies": {
+    "electron": "44.7.2",
+    "electron-builder": "^26.15.3"
+  },
+  "dependencies": {
+    "koffi": "^3.3.3"
+  },
+  "productName": "Nova Live",
+  "build": {
+    "appId": "com.acuz3d.novalive",
+    "productName": "Nova Live",
+    "directories": {
+      "output": "dist"
+    },
+    "npmRebuild": false,
+    "files": [
+      "**/*",
+      "!dist/**",
+      "!tools/**",
+      "!art/**",
+      "!docs/**",
+      "!*.lnk",
+      "!README.md"
+    ],
+    "asarUnpack": [
+      "node_modules/koffi/**"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "runAfterFinish": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Nova Live",
+      "deleteAppDataOnUninstall": false,
+      "artifactName": "Nova-Live-Setup-${version}.${ext}"
+    }
+  },
+  "allowScripts": {
+    "koffi@3.3.3": true,
+    "electron-winstaller@5.4.0": true
+  }
+}
+

@@ -1,0 +1,84 @@
+﻿<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Nova Live wallpaper</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #000;
+        cursor: none;
+      }
+
+      video,
+      img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 0.6s;
+      }
+
+      .shown {
+        opacity: 1;
+      }
+
+      body[data-fit='contain'] :is(video, img) {
+        object-fit: contain;
+      }
+
+      body[data-fit='fill'] :is(video, img) {
+        object-fit: fill;
+      }
+    </style>
+  </head>
+  <body>
+    <video id="video" loop playsinline></video>
+    <img id="image" alt="" />
+    <script>
+      // Shows whatever main.js sends: a looping video or a picture, fading in.
+      const video = document.getElementById('video');
+      const image = document.getElementById('image');
+      let src = null;
+
+      video.addEventListener('loadeddata', () => video.classList.add('shown'));
+      video.addEventListener('ended', () => window.wall.ended());
+      image.addEventListener('load', () => image.classList.add('shown'));
+
+      window.wall.onState((s) => {
+        if (!s) return;
+        document.body.dataset.fit = s.fit;
+        if (s.kind === 'video') {
+          image.classList.remove('shown');
+          image.removeAttribute('src');
+          if (src !== s.src) {
+            video.classList.remove('shown');
+            video.src = s.src;
+          }
+          video.loop = s.loop !== false;
+          video.muted = s.muted;
+          video.volume = Math.max(0, Math.min(1, s.volume / 100));
+          if (s.paused) video.pause();
+          else video.play().catch(() => {});
+        } else {
+          video.pause();
+          video.classList.remove('shown');
+          video.removeAttribute('src');
+          video.load();
+          if (src !== s.src) {
+            image.classList.remove('shown');
+            image.src = s.src;
+          }
+        }
+        src = s.src;
+      });
+      window.wall.ready();
+    </script>
+  </body>
+</html>

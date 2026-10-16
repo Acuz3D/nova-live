@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' file: data:; style-src 'self' 'unsafe-inline'" />
+    <title>Nova Live</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="backdrop"><img src="background.jpg" alt="" /></div>
+
+    <header id="toolbar">
+      <img class="brand-icon" src="../icon.png" alt="" />
+      <span class="brand">Nova Live</span>
+      <span class="sep"></span>
+      <span id="status"></span>
+
+      <div id="bar-right">
+        <button class="icon-btn" id="folder-btn" title="Open the library folder"><i data-icon="folder"></i></button>
+        <div id="settings-menu">
+          <button class="icon-btn" id="settings-btn" title="Settings"><i data-icon="sliders"></i></button>
+          <div id="settings-panel" class="glass-menu">
+            <span class="menu-heading">Settings</span>
+            <label class="toggle"><span>Start with Windows</span><input type="checkbox" id="opt-start" /><i class="switch"></i></label>
+            <label class="toggle"><span>Pause while a game or full-screen app is open</span><input type="checkbox" id="opt-fullscreen" /><i class="switch"></i></label>
+            <label class="row">
+              <span>Download quality</span>
+              <select id="opt-quality">
+                <option value="720">720p</option>
+                <option value="1080">1080p</option>
+                <option value="1440">1440p</option>
+                <option value="2160">4K</option>
+              </select>
+            </label>
+            <button id="opt-import" class="menu-btn"><i data-icon="grid"></i>Bring in videos from Nova Grid</button>
+            <span class="menu-sub">Look</span>
+            <label class="row slider"><span>See-through</span><input type="range" id="opt-see" min="0" max="100" /><b id="opt-see-value"></b></label>
+            <label class="row slider"><span>Glass blur</span><input type="range" id="opt-blur" min="0" max="30" /><b id="opt-blur-value"></b></label>
+            <p class="about" id="about"></p>
+          </div>
+        </div>
+      </div>
+
+      <div id="win-btns">
+        <button id="win-min" title="Minimise"><i data-icon="winMin"></i></button>
+        <button id="win-close" title="Close to the tray"><i data-icon="winClose"></i></button>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero glass">
+        <span class="eyebrow">Live wallpaper</span>
+        <h1>Make anything your wallpaper</h1>
+        <p class="lead">Paste a YouTube, TikTok or other video link, a picture, or any web page. Or drop a file anywhere on this window.</p>
+        <form id="add-form" autocomplete="off">
+          <label class="link-box">
+            <i data-icon="link"></i>
+            <input type="text" id="link" placeholder="https://www.youtube.com/watch?v=…" spellcheck="false" />
+          </label>
+          <button type="button" id="browse-btn"><i data-icon="folder"></i>Browse</button>
+          <button type="submit" class="primary" id="add-btn"><i data-icon="sparkle"></i>Set as wallpaper</button>
+        </form>
+        <div id="progress" hidden>
+          <div class="track"><span id="progress-fill"></span></div>
+          <span id="progress-text"></span>
+        </div>
+        <p id="message" hidden></p>
+        <p id="no-downloader" hidden>Links need the free downloader yt-dlp. Install it by running <code>winget install yt-dlp</code>, then open Nova Live again. Files and pictures work without it.</p>
+      </section>
+
+      <section class="now glass" id="now">
+        <div class="now-thumb" id="now-thumb"></div>
+        <div class="now-text">
+          <span class="eyebrow" id="now-label">On your desktop</span>
+          <span class="now-title" id="now-title"></span>
+          <span class="now-sub" id="now-sub"></span>
+          <div class="now-controls" id="now-controls">
+            <button class="icon-btn round" id="play-btn" title="Pause"></button>
+            <button class="icon-btn" id="next-btn" title="Next wallpaper"><i data-icon="next"></i></button>
+            <span class="sep"></span>
+            <div class="sound">
+              <button class="icon-btn" id="mute-btn" title="Sound"></button>
+              <input type="range" id="volume" min="0" max="100" />
+            </div>
+            <div class="segmented" id="fit">
+              <button data-fit="cover" title="Fill the screen, trimming the edges">Fill</button>
+              <button data-fit="contain" title="Show all of it, with bars if needed">Fit</button>
+              <button data-fit="fill" title="Stretch to the screen">Stretch</button>
+            </div>
+            <span class="sep"></span>
+            <label class="auto-next" title="Move on to the next wallpaper by itself">
+              <i data-icon="repeat"></i>
+              <select id="auto-next">
+                <option value="0">Auto next: off</option>
+                <option value="end">When the video ends</option>
+                <option value="1">Every minute</option>
+                <option value="5">Every 5 minutes</option>
+                <option value="10">Every 10 minutes</option>
+                <option value="30">Every 30 minutes</option>
+                <option value="60">Every hour</option>
+              </select>
+            </label>
+            <button class="icon-btn" id="shuffle-btn" title="Shuffle"><i data-icon="shuffle"></i></button>
+            <button id="off-btn" title="Go back to your normal wallpaper"><i data-icon="power"></i>Turn off</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="library">
+        <div class="section-head">
+          <h2>Library</h2>
+          <span id="count"></span>
+          <button id="import-btn" hidden><i data-icon="grid"></i><span></span></button>
+        </div>
+        <div id="grid"></div>
+        <div id="empty" class="glass" hidden>
+          <span class="brand small">Nova Live</span>
+          <p>Your wallpapers will show up here. Paste a link above to start.</p>
+        </div>
+      </section>
+    </main>
+
+    <div id="drop" hidden>
+      <div class="drop-inner">
+        <i data-icon="plus"></i>
+        <span>Drop to set as wallpaper</span>
+      </div>
+    </div>
+
+    <script src="renderer.js"></script>
+  </body>
+</html>
