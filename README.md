@@ -21,7 +21,7 @@ Nova Live turns almost anything into your desktop background. Paste a YouTube li
 
 ## Install
 
-1. Download **Nova-Live-Setup.exe** from [Releases](https://github.com/Acuz3D/nova-live/releases) and run it.
+1. Download **Nova-Live-Setup-1.0.0.exe** from the [latest release](https://github.com/Acuz3D/nova-live/releases/latest) and run it.
 2. For links, install the free downloader yt-dlp (and ffmpeg for the best quality) by running this in a terminal:
    ```
    winget install yt-dlp
