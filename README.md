@@ -2,6 +2,8 @@
 
 <p align="center">Live wallpapers for Windows, made by Nova Studios. Paste a link and it plays behind your desktop icons.</p>
 
+<p align="center"><a href="https://github.com/Acuz3D/nova-live/releases/latest"><b>⬇ Download the latest version</b></a></p>
+
 ---
 
 Nova Live turns almost anything into your desktop background. Paste a YouTube link and it downloads the video and plays it on a loop behind your icons, on every screen. It also works with TikTok and most other video sites, pictures, GIFs, video files on your PC and whole web pages.
